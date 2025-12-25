@@ -1,4 +1,5 @@
 const Order = require("../models/Order");
+const Product = require("../models/Product");
 
 // @desc Create a new order
 exports.createOrder = async (req, res) => {
@@ -7,6 +8,15 @@ exports.createOrder = async (req, res) => {
 
     if (!orderItems || orderItems.length === 0) {
       return res.status(400).json({ message: "No order items" });
+    }
+
+    // Update stock for each product
+    for (const item of orderItems) {
+      const product = await Product.findById(item.product);
+      if (product) {
+        product.countInStock -= item.qty;
+        await product.save();
+      }
     }
 
     const order = new Order({
