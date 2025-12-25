@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import Products from "./pages/Products";
 import ProductPage from "./pages/ProductPage";
 import Cart from "./pages/Cart";
+import PlaceOrder from "./pages/PlaceOrder";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -20,15 +21,8 @@ function App() {
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductPage />} />
         <Route path="/cart" element={<Cart />} />
-
-        <Route
-          path="/orders"
-          element={
-            <ProtectedRoute>
-              <Orders />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/placeorder" element={<ProtectedRoute><PlaceOrder /></ProtectedRoute>} />
+        <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   );
