@@ -25,6 +25,18 @@ function Products() {
   if (loading) return <p className="text-neutral-600 text-center py-12">Loading products...</p>;
   if (error) return <p className="text-red-600 text-center py-12">{error}</p>;
 
+  if (products.length === 0) {
+    return (
+      <div className="card p-12 text-center">
+        <h3 className="text-xl font-semibold text-neutral-900 mb-2">No Products Available</h3>
+        <p className="text-neutral-600 mb-4">Check back soon for new items!</p>
+        <button onClick={() => window.location.reload()} className="btn btn-primary">
+          Refresh
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="mb-8">

@@ -1,15 +1,21 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { CartContext } from "../context/CartContext";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 
 function PlaceOrder() {
-  const { cartItems, setCartItems } = useContext(CartContext);
+  const { cartItems, clearCart } = useContext(CartContext);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (cartItems.length === 0) {
+      navigate("/cart");
+    }
+  }, [cartItems, navigate]);
 
   const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
 
@@ -29,10 +35,8 @@ function PlaceOrder() {
         totalPrice,
       });
 
-      setCartItems([]);
-      localStorage.removeItem("cartItems");
-
-      navigate(`/orders/${data._id}`); // go to order details
+      clearCart();
+      navigate("/orders");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to place order");
     } finally {

@@ -1,9 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { CartContext } from "../context/CartContext";
 
 function Navbar() {
   const { user, logout } = useContext(AuthContext);
+  const { cartItems } = useContext(CartContext);
+  const navigate = useNavigate();
+  const cartCount = cartItems.reduce((acc, item) => acc + item.qty, 0);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <nav className="bg-white border-b border-neutral-200">
@@ -13,7 +22,14 @@ function Navbar() {
             <Link to="/" className="text-xl font-bold text-neutral-900">Store</Link>
             <div className="hidden md:flex space-x-6">
               <Link to="/products" className="text-neutral-600 hover:text-neutral-900 transition-colors">Products</Link>
-              <Link to="/cart" className="text-neutral-600 hover:text-neutral-900 transition-colors">Cart</Link>
+              <Link to="/cart" className="text-neutral-600 hover:text-neutral-900 transition-colors relative">
+                Cart
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-3 bg-neutral-900 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
               {user && <Link to="/orders" className="text-neutral-600 hover:text-neutral-900 transition-colors">Orders</Link>}
               {user?.isAdmin && <Link to="/admin" className="text-neutral-600 hover:text-neutral-900 transition-colors">Admin</Link>}
             </div>
@@ -23,7 +39,7 @@ function Navbar() {
             {user ? (
               <>
                 <span className="text-sm text-neutral-600">Hi, {user.name}</span>
-                <button onClick={logout} className="btn btn-ghost">Logout</button>
+                <button onClick={handleLogout} className="btn btn-ghost">Logout</button>
               </>
             ) : (
               <>

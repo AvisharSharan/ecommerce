@@ -22,7 +22,7 @@ function Register() {
       });
 
       login(
-        { _id: data._id, name: data.name, email: data.email },
+        { _id: data._id, name: data.name, email: data.email, isAdmin: data.isAdmin },
         data.token
       );
 

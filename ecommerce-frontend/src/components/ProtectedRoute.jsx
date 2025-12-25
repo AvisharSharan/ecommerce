@@ -6,8 +6,11 @@ function ProtectedRoute({ children }) {
   const { user, loading } = useContext(AuthContext);
 
   if (loading) {
-    // Wait until AuthContext finishes loading
-    return <p>Loading...</p>;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-neutral-600">Loading...</p>
+      </div>
+    );
   }
 
   if (!user) {

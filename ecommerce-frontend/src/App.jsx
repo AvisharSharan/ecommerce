@@ -10,6 +10,7 @@ import Cart from "./pages/Cart";
 import PlaceOrder from "./pages/PlaceOrder";
 import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
 
 function App() {
   return (
@@ -18,15 +19,15 @@ function App() {
         <Navbar />
         <main className="container-custom">
           <Routes>
-            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/products/:id" element={<ProductPage />} />
-            <Route path="/cart" element={<Cart />} />
+            <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+            <Route path="/products" element={<ProtectedRoute><Products /></ProtectedRoute>} />
+            <Route path="/products/:id" element={<ProtectedRoute><ProductPage /></ProtectedRoute>} />
+            <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
             <Route path="/placeorder" element={<ProtectedRoute><PlaceOrder /></ProtectedRoute>} />
             <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
-            <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+            <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
           </Routes>
         </main>
       </div>

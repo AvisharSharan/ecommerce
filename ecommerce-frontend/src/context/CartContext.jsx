@@ -7,15 +7,15 @@ export function CartProvider({ children }) {
     JSON.parse(localStorage.getItem("cartItems")) || []
   );
 
-  const addToCart = (product) => {
+  const addToCart = (product, quantity = 1) => {
     const exist = cartItems.find((x) => x._id === product._id);
     let updatedCart;
     if (exist) {
       updatedCart = cartItems.map((x) =>
-        x._id === product._id ? { ...x, qty: x.qty + 1 } : x
+        x._id === product._id ? { ...x, qty: x.qty + quantity } : x
       );
     } else {
-      updatedCart = [...cartItems, { ...product, qty: 1 }];
+      updatedCart = [...cartItems, { ...product, qty: quantity }];
     }
     setCartItems(updatedCart);
     localStorage.setItem("cartItems", JSON.stringify(updatedCart));
@@ -44,11 +44,16 @@ export function CartProvider({ children }) {
 
     setCartItems(updatedCart);
     localStorage.setItem("cartItems", JSON.stringify(updatedCart));
-    };
+  };
+
+  const clearCart = () => {
+    setCartItems([]);
+    localStorage.removeItem("cartItems");
+  };
     
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, increaseQty, decreaseQty }}
+      value={{ cartItems, setCartItems, addToCart, removeFromCart, increaseQty, decreaseQty, clearCart }}
     >
       {children}
     </CartContext.Provider>

@@ -3,7 +3,7 @@ import { CartContext } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 
 function Cart() {
-  const { cartItems, removeFromCart, increaseQty, decreaseQty } =
+  const { cartItems, removeFromCart, increaseQty, decreaseQty, clearCart } =
     useContext(CartContext);
   const navigate = useNavigate();
 
@@ -15,8 +15,20 @@ function Cart() {
   return (
     <div>
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-neutral-900 mb-2">Shopping Cart</h2>
-        <p className="text-neutral-600">{cartItems.length} {cartItems.length === 1 ? 'item' : 'items'}</p>
+        <div className="flex justify-between items-center">
+          <div>
+            <h2 className="text-3xl font-bold text-neutral-900 mb-2">Shopping Cart</h2>
+            <p className="text-neutral-600">{cartItems.length} {cartItems.length === 1 ? 'item' : 'items'}</p>
+          </div>
+          {cartItems.length > 0 && (
+            <button 
+              onClick={clearCart}
+              className="btn btn-secondary text-sm"
+            >
+              Clear Cart
+            </button>
+          )}
+        </div>
       </div>
       
       {cartItems.length === 0 ? (
