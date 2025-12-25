@@ -27,8 +27,29 @@ export function CartProvider({ children }) {
     localStorage.setItem("cartItems", JSON.stringify(updatedCart));
   };
 
+  const increaseQty = (product) => {
+    const updatedCart = cartItems.map((x) =>
+      x._id === product._id ? { ...x, qty: x.qty + 1 } : x
+    );
+    setCartItems(updatedCart);
+    localStorage.setItem("cartItems", JSON.stringify(updatedCart));
+  };
+
+  const decreaseQty = (product) => {
+    let updatedCart = cartItems
+        .map((x) =>
+        x._id === product._id ? { ...x, qty: x.qty - 1 } : x
+        )
+        .filter((x) => x.qty > 0); // remove item if qty <= 0
+
+    setCartItems(updatedCart);
+    localStorage.setItem("cartItems", JSON.stringify(updatedCart));
+    };
+    
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>
+    <CartContext.Provider
+      value={{ cartItems, addToCart, removeFromCart, increaseQty, decreaseQty }}
+    >
       {children}
     </CartContext.Provider>
   );
