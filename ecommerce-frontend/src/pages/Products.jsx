@@ -22,31 +22,36 @@ function Products() {
     fetchProducts();
   }, []);
 
-  if (loading) return <p>Loading products...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (loading) return <p className="text-neutral-600 text-center py-12">Loading products...</p>;
+  if (error) return <p className="text-red-600 text-center py-12">{error}</p>;
 
   return (
     <div>
-      <h2>Products</h2>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+      <div className="mb-8">
+        <h2 className="text-3xl font-bold text-neutral-900 mb-2">Products</h2>
+        <p className="text-neutral-600">Browse our collection</p>
+      </div>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {products.map((product) => (
-          <div
+          <Link
             key={product._id}
-            style={{
-              border: "1px solid #ccc",
-              padding: "10px",
-              width: "200px",
-            }}
+            to={`/products/${product._id}`}
+            className="card p-4 group"
           >
-            <img
-              src={product.image}
-              alt={product.name}
-              style={{ width: "100%" }}
-            />
-            <h3>{product.name}</h3>
-            <p>${product.price}</p>
-            <Link to={`/products/${product._id}`}>View</Link>
-          </div>
+            <div className="aspect-square bg-neutral-100 rounded-lg mb-4 overflow-hidden">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            <h3 className="font-medium text-neutral-900 mb-1">{product.name}</h3>
+            {product.category && (
+              <p className="text-sm text-neutral-500 mb-2">{product.category}</p>
+            )}
+            <p className="text-lg font-semibold text-neutral-900">${product.price}</p>
+          </Link>
         ))}
       </div>
     </div>
