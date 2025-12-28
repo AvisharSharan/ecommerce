@@ -104,12 +104,12 @@ function Products() {
       </div>
 
       {/* Filters */}
-      <div className="bg-white border border-gray-200 rounded-lg p-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+      <div className="card p-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search products…"
+            placeholder="Search products..."
             className="input"
           />
 
@@ -130,57 +130,42 @@ function Products() {
             onChange={(e) => setSort(e.target.value)}
             className="input"
           >
-            <option value="default">Default</option>
+            <option value="default">Sort By</option>
             <option value="name">Name (A–Z)</option>
-            <option value="price-asc">Price ↑</option>
-            <option value="price-desc">Price ↓</option>
+            <option value="price-asc">Price (Low to High)</option>
+            <option value="price-desc">Price (High to Low)</option>
           </select>
+        </div>
 
-          <div className="flex gap-2">
-            <input
-              type="number"
-              placeholder="Min"
-              value={price.min}
-              onChange={(e) => setPrice({ ...price, min: e.target.value })}
-              className="input"
-            />
-            <input
-              type="number"
-              placeholder="Max"
-              value={price.max}
-              onChange={(e) => setPrice({ ...price, max: e.target.value })}
-              className="input"
-            />
+        {(search || category !== "all" || sort !== "default" || price.min || price.max) && (
+          <div className="mt-3 flex justify-end">
+            <button
+              onClick={resetFilters}
+              className="text-sm text-gray-600 hover:text-primary-600 font-medium"
+            >
+              Clear filters
+            </button>
           </div>
-        </div>
-
-        <div className="mt-3 flex justify-end">
-          <button
-            onClick={resetFilters}
-            className="text-sm text-gray-700 hover:text-green-600"
-          >
-            Reset filters
-          </button>
-        </div>
+        )}
       </div>
 
       {/* Products Grid */}
       {filteredProducts.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-600 mb-3">No products found</p>
+          <p className="text-gray-600 mb-4">No products found</p>
           <button onClick={resetFilters} className="btn btn-primary">
             Clear filters
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredProducts.map(product => (
             <Link
               key={product._id}
               to={`/products/${product._id}`}
-              className="group border border-gray-200 rounded-lg p-3 hover:shadow-md hover:border-green-300 transition-all"
+              className="card p-4 group"
             >
-              <div className="aspect-square rounded-lg bg-gray-100 overflow-hidden mb-2">
+              <div className="aspect-square rounded-2xl bg-gray-100 overflow-hidden mb-3">
                 <img
                   src={product.image}
                   alt={product.name}
@@ -188,17 +173,17 @@ function Products() {
                 />
               </div>
 
-              <h3 className="font-medium text-gray-900 truncate group-hover:text-green-600 transition-colors">
+              <h3 className="font-semibold text-gray-900 line-clamp-2 group-hover:text-primary-600 transition-colors mb-2">
                 {product.name}
               </h3>
 
               {product.category && (
-                <span className="inline-block mt-1 text-xs bg-green-50 text-green-600 px-2 py-0.5 rounded">
+                <span className="badge badge-primary mb-2">
                   {product.category}
                 </span>
               )}
 
-              <p className="mt-2 text-lg font-bold text-green-600">
+              <p className="text-lg font-bold text-primary-600">
                 ${product.price}
               </p>
             </Link>

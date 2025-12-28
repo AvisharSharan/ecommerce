@@ -27,59 +27,30 @@ function Home() {
   const featuredProducts = products.slice(0, 6);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Welcome Section */}
-      <div className="bg-white border border-gray-200 rounded-lg p-6">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome to ShopHub</h2>
-        <p className="text-gray-600 mb-4">Quality products, fast delivery, great prices</p>
-        <Link to="/products" className="btn btn-primary inline-flex items-center gap-2">
+      <div className="card p-8 text-center">
+        <h2 className="text-4xl font-bold text-gray-900 mb-3">Welcome to ShopHub</h2>
+        <p className="text-gray-600 mb-6">Discover quality products at great prices</p>
+        <Link to="/products" className="btn btn-primary">
           Start Shopping
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
         </Link>
-      </div>
-
-      {/* Quick Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white border border-gray-200 rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-green-600">{products.length}+</div>
-          <div className="text-sm text-gray-600">Products</div>
-        </div>
-        <div className="bg-white border border-gray-200 rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-green-600">{categories.length}</div>
-          <div className="text-sm text-gray-600">Categories</div>
-        </div>
-        <div className="bg-white border border-gray-200 rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-green-600">24/7</div>
-          <div className="text-sm text-gray-600">Support</div>
-        </div>
-        <div className="bg-white border border-gray-200 rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-green-600">Free</div>
-          <div className="text-sm text-gray-600">Shipping</div>
-        </div>
       </div>
 
       {/* Categories */}
       {categories.length > 0 && (
-        <div className="bg-white border border-gray-200 rounded-lg p-4">
-          <h3 className="font-bold text-gray-900 mb-3">Shop by Category</h3>
+        <div className="card p-6">
+          <h3 className="font-bold text-gray-900 mb-4">Categories</h3>
           <div className="flex flex-wrap gap-2">
             {categories.map((category) => (
               <Link
                 key={category}
                 to={`/products?category=${category}`}
-                className="px-3 py-2 bg-gray-50 hover:bg-green-50 text-gray-700 hover:text-green-600 rounded-lg border border-gray-200 hover:border-green-300 transition-colors"
+                className="px-4 py-2 bg-gray-50 hover:bg-primary-50 text-gray-700 hover:text-primary-700 rounded-pill border-2 border-gray-200 hover:border-primary-300 transition-all font-medium"
               >
                 {category}
               </Link>
             ))}
-            <Link
-              to="/products"
-              className="px-3 py-2 bg-green-50 text-green-600 rounded-lg border border-green-300 hover:bg-green-100 transition-colors"
-            >
-              View All →
-            </Link>
           </div>
         </div>
       )}
@@ -88,18 +59,15 @@ function Home() {
       <section>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-2xl font-bold text-gray-900">Featured Products</h2>
-          <Link to="/products" className="text-green-600 hover:text-green-700 font-semibold flex items-center gap-1">
-            View All
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
+          <Link to="/products" className="text-primary-600 hover:text-primary-700 font-medium">
+            View All →
           </Link>
         </div>
 
         {loading && (
           <div className="text-center py-12">
-            <div className="w-12 h-12 mx-auto border-4 border-green-200 border-t-green-600 rounded-full animate-spin mb-3"></div>
-            <p className="text-gray-600">Loading products...</p>
+            <div className="w-12 h-12 mx-auto border-4 border-primary-200 border-t-primary-600 rounded-pill animate-spin mb-3"></div>
+            <p className="text-gray-600">Loading...</p>
           </div>
         )}
 
@@ -111,20 +79,19 @@ function Home() {
 
         {!loading && !error && products.length === 0 && (
           <div className="card p-8 text-center">
-            <p className="text-gray-600 mb-3">No products available</p>
-            <p className="text-sm text-gray-500">Check back soon!</p>
+            <p className="text-gray-600">No products available</p>
           </div>
         )}
 
-        {!loading && !error && products.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {products.map((product) => (
+        {!loading && !error && featuredProducts.length > 0 && (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {featuredProducts.map((product) => (
               <Link
                 key={product._id}
                 to={`/products/${product._id}`}
-                className="card p-4 group hover:shadow-lg transition-shadow"
+                className="card p-4 group"
               >
-                <div className="aspect-square bg-gray-100 rounded-lg mb-3 overflow-hidden">
+                <div className="aspect-square bg-gray-100 rounded-2xl mb-3 overflow-hidden">
                   <img
                     src={product.image}
                     alt={product.name}
@@ -132,14 +99,14 @@ function Home() {
                   />
                 </div>
                 {product.category && (
-                  <span className="inline-block px-2 py-1 bg-green-50 text-green-600 text-xs rounded mb-2">
+                  <span className="badge badge-primary mb-2">
                     {product.category}
                   </span>
                 )}
-                <h3 className="font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">
+                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
                   {product.name}
                 </h3>
-                <p className="text-xl font-bold text-green-600">${product.price}</p>
+                <p className="text-lg font-bold text-primary-600">${product.price}</p>
               </Link>
             ))}
           </div>

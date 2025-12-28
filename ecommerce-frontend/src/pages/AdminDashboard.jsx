@@ -122,7 +122,7 @@ function AdminDashboard() {
       <div className="grid lg:grid-cols-2 gap-6">
         <div>
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-semibold text-gray-900">Products ({products.length})</h3>
+            <h3 className="text-xl font-bold text-gray-900">Products ({products.length})</h3>
             <button 
               onClick={() => setShowAddProduct(!showAddProduct)}
               className="btn btn-primary text-sm"
@@ -132,10 +132,10 @@ function AdminDashboard() {
           </div>
 
           {showAddProduct && (
-            <div className="card p-4 mb-4">
-              <h4 className="font-semibold text-gray-900 mb-3">Add New Product</h4>
-              {addError && <div className="bg-red-50 text-red-600 px-3 py-2 rounded mb-3 text-sm">{addError}</div>}
-              <form onSubmit={handleAddProduct} className="space-y-2">
+            <div className="card p-5 mb-4">
+              <h4 className="font-bold text-gray-900 mb-3">New Product</h4>
+              {addError && <div className="bg-red-50 text-red-600 px-3 py-2 rounded-2xl mb-3 text-sm">{addError}</div>}
+              <form onSubmit={handleAddProduct} className="space-y-3">
                 <input
                   type="text"
                   placeholder="Product Name"
@@ -198,10 +198,10 @@ function AdminDashboard() {
               <div key={p._id} className="card p-4">
                 <div className="flex justify-between items-start mb-3">
                   <div className="flex-1">
-                    <p className="font-medium text-gray-900">{p.name}</p>
+                    <p className="font-semibold text-gray-900">{p.name}</p>
                     <p className="text-sm text-gray-600">Stock: {p.countInStock}</p>
                   </div>
-                  <p className="font-semibold text-green-600">${p.price}</p>
+                  <p className="font-bold text-primary-600">${p.price}</p>
                 </div>
                 
                 {editingProduct === p._id ? (
@@ -215,7 +215,7 @@ function AdminDashboard() {
                     />
                     <button
                       onClick={() => handleUpdateStock(p._id)}
-                      className="btn btn-primary text-sm px-3"
+                      className="btn btn-primary text-sm px-4"
                     >
                       Save
                     </button>
@@ -224,7 +224,7 @@ function AdminDashboard() {
                         setEditingProduct(null);
                         setEditStock("");
                       }}
-                      className="btn btn-ghost text-sm px-3"
+                      className="btn btn-secondary text-sm px-4"
                     >
                       Cancel
                     </button>
@@ -242,7 +242,7 @@ function AdminDashboard() {
                     </button>
                     <button
                       onClick={() => handleDeleteProduct(p._id)}
-                      className="btn text-sm px-4 bg-red-100 hover:bg-red-200 text-red-700"
+                      className="btn btn-danger text-sm px-4"
                     >
                       Delete
                     </button>
@@ -255,19 +255,19 @@ function AdminDashboard() {
 
         <div>
           <div className="mb-4">
-            <h3 className="text-xl font-semibold text-gray-900">Orders ({orders.length})</h3>
+            <h3 className="text-xl font-bold text-gray-900">Orders ({orders.length})</h3>
           </div>
           <div className="space-y-3">
             {orders.map((o) => (
               <div key={o._id} className="card p-5">
                 <div className="flex justify-between items-start mb-3">
                   <div>
-                    <p className="text-sm font-semibold text-gray-700">Order #{o._id.slice(-8)}</p>
+                    <p className="text-sm font-bold text-gray-900">Order #{o._id.slice(-8)}</p>
                     <p className="text-sm text-gray-600">{o.user?.name || 'Guest'}</p>
                     <p className="text-xs text-gray-500">{o.user?.email}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-lg font-bold text-green-600">${o.totalPrice.toFixed(2)}</p>
+                    <p className="text-lg font-bold text-primary-600">${o.totalPrice.toFixed(2)}</p>
                     <p className="text-xs text-gray-500">{new Date(o.createdAt).toLocaleDateString()}</p>
                   </div>
                 </div>
@@ -284,7 +284,6 @@ function AdminDashboard() {
                       <option value="Processing">Processing</option>
                       <option value="Completed">Completed</option>
                       <option value="Cancelled">Cancelled</option>
-                      <option value="Returned">Returned</option>
                     </select>
                     <div className="flex gap-2">
                       <button
@@ -308,8 +307,8 @@ function AdminDashboard() {
                 ) : (
                   <div className="mt-3">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-gray-600">Status:</span>
-                      <span className={`badge ${getStatusColor(o.status)} text-xs px-2 py-1`}>
+                      <span className="text-sm font-semibold text-gray-700">Status:</span>
+                      <span className={`badge ${getStatusColor(o.status)}`}>
                         {o.status}
                       </span>
                     </div>

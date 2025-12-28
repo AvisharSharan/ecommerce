@@ -55,38 +55,38 @@ function PlaceOrder() {
         <div className="card p-12 text-center">
           <p className="text-gray-600 mb-4">Your cart is empty</p>
           <button onClick={() => navigate("/products")} className="btn btn-primary">
-            Continue Shopping
+            Start Shopping
           </button>
         </div>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-4">
           <div className="card p-6">
-            <h3 className="font-semibold text-gray-900 mb-4">Order Items</h3>
+            <h3 className="font-bold text-gray-900 mb-4">Order Items</h3>
             <div className="space-y-3">
               {cartItems.map((item) => (
-                <div key={item._id} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
+                <div key={item._id} className="flex justify-between items-center py-3 border-b border-gray-100 last:border-0">
                   <div>
-                    <p className="font-medium text-gray-900">{item.name}</p>
-                    <p className="text-sm text-gray-600">Qty: {item.qty}</p>
+                    <p className="font-semibold text-gray-900">{item.name}</p>
+                    <p className="text-sm text-gray-600">Quantity: {item.qty}</p>
                   </div>
-                  <p className="font-semibold text-gray-900">${(item.price * item.qty).toFixed(2)}</p>
+                  <p className="font-bold text-gray-900">${(item.price * item.qty).toFixed(2)}</p>
                 </div>
               ))}
             </div>
           </div>
 
           <div className="card p-6">
-            <div className="space-y-2">
+            <div className="space-y-3">
               <div className="flex justify-between text-gray-600">
                 <span>Subtotal</span>
-                <span>${totalPrice.toFixed(2)}</span>
+                <span className="font-semibold">${totalPrice.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-gray-600">
                 <span>Shipping</span>
-                <span>Free</span>
+                <span className="font-semibold text-primary-600">Free</span>
               </div>
-              <div className="border-t border-gray-200 pt-2 mt-2">
-                <div className="flex justify-between text-xl font-semibold text-gray-900">
+              <div className="border-t-2 border-gray-200 pt-3">
+                <div className="flex justify-between text-2xl font-bold text-gray-900">
                   <span>Total</span>
                   <span>${totalPrice.toFixed(2)}</span>
                 </div>
@@ -94,12 +94,12 @@ function PlaceOrder() {
             </div>
           </div>
 
-          {error && <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg">{error}</div>}
+          {error && <div className="card p-4 bg-red-50 border-2 border-red-200 text-red-700">{error}</div>}
 
           <button 
             onClick={handlePlaceOrder} 
             disabled={loading}
-            className="btn btn-primary w-full py-3 text-lg"
+            className="btn btn-primary w-full"
           >
             {loading ? "Processing..." : "Place Order"}
           </button>
