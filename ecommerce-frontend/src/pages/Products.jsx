@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import api from "../services/api";
 
 function Products() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [searchParams] = useSearchParams();
 
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
@@ -24,6 +25,19 @@ function Products() {
       }
     })();
   }, []);
+
+  // Apply URL parameters to filters
+  useEffect(() => {
+    const searchParam = searchParams.get("search");
+    const categoryParam = searchParams.get("category");
+    
+    if (searchParam) {
+      setSearch(searchParam);
+    }
+    if (categoryParam) {
+      setCategory(categoryParam);
+    }
+  }, [searchParams]);
 
   const categories = useMemo(() => {
     return ["all", ...new Set(products.map(p => p.category).filter(Boolean))];
