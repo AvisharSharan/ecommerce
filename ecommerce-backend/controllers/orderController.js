@@ -41,3 +41,28 @@ exports.getMyOrders = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// @desc Update order status (Admin only)
+exports.updateOrderStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    // Valid statuses
+    const validStatuses = ["Pending", "Processing", "Completed", "Cancelled", "Returned"];
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ message: "Invalid status" });
+    }
+
+    order.status = status;
+    const updatedOrder = await order.save();
+    
+    res.json(updatedOrder);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
