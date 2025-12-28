@@ -196,11 +196,11 @@ function Profile() {
           {/* Shipping Address Card */}
           <div className="card p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-neutral-900">Shipping Address</h2>
+              <h2 className="text-2xl font-bold text-gray-900">Shipping Address</h2>
               {!editingAddress && (
                 <button
                   onClick={() => setEditingAddress(true)}
-                  className="text-sm text-blue-600 hover:text-blue-700 font-semibold"
+                  className="text-sm text-green-600 hover:text-green-700 font-semibold"
                 >
                   {shippingAddress.street ? "Edit" : "Add Address"}
                 </button>
@@ -210,21 +210,21 @@ function Profile() {
             {!editingAddress ? (
               <div>
                 {shippingAddress.street ? (
-                  <div className="px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-lg">
-                    <p className="text-neutral-900">{shippingAddress.street}</p>
-                    <p className="text-neutral-900">
+                  <div className="px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg">
+                    <p className="text-gray-900">{shippingAddress.street}</p>
+                    <p className="text-gray-900">
                       {shippingAddress.city}, {shippingAddress.state} {shippingAddress.zipCode}
                     </p>
-                    <p className="text-neutral-900">{shippingAddress.country}</p>
+                    <p className="text-gray-900">{shippingAddress.country}</p>
                   </div>
                 ) : (
-                  <p className="text-neutral-500 italic">No shipping address added</p>
+                  <p className="text-gray-500 italic">No shipping address added</p>
                 )}
               </div>
             ) : (
               <form onSubmit={handleUpdateAddress} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-1">Street Address</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Street Address</label>
                   <input
                     type="text"
                     value={shippingAddress.street}
@@ -298,19 +298,19 @@ function Profile() {
 
           {/* Order History */}
           <div className="card p-6">
-            <h2 className="text-2xl font-bold text-neutral-900 mb-6">Order History</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Order History</h2>
             {orders.length === 0 ? (
-              <p className="text-neutral-500 italic">No orders yet</p>
+              <p className="text-gray-500 italic">No orders yet</p>
             ) : (
               <div className="space-y-4">
                 {orders.map((order) => (
-                  <div key={order._id} className="border border-neutral-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                  <div key={order._id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md hover:border-green-300 transition-all">
                     <div className="flex justify-between items-start mb-3">
                       <div>
-                        <p className="text-sm text-neutral-500">
+                        <p className="text-sm text-gray-500">
                           Order #{order._id.slice(-8)}
                         </p>
-                        <p className="text-sm text-neutral-500">
+                        <p className="text-sm text-gray-500">
                           {new Date(order.createdAt).toLocaleDateString("en-US", {
                             year: "numeric",
                             month: "long",
@@ -333,16 +333,16 @@ function Profile() {
                             <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded" />
                           )}
                           <div className="flex-1">
-                            <p className="text-sm font-medium text-neutral-900">{item.name}</p>
-                            <p className="text-xs text-neutral-500">Qty: {item.qty}</p>
+                            <p className="text-sm font-medium text-gray-900">{item.name}</p>
+                            <p className="text-xs text-gray-500">Qty: {item.qty}</p>
                           </div>
-                          <p className="text-sm font-semibold text-neutral-900">${item.price}</p>
+                          <p className="text-sm font-semibold text-gray-900">${item.price}</p>
                         </div>
                       ))}
                     </div>
-                    <div className="mt-3 pt-3 border-t border-neutral-200 flex justify-between items-center">
-                      <span className="text-sm font-semibold text-neutral-700">Total</span>
-                      <span className="text-lg font-bold text-neutral-900">${order.totalPrice.toFixed(2)}</span>
+                    <div className="mt-3 pt-3 border-t border-gray-200 flex justify-between items-center">
+                      <span className="text-sm font-semibold text-gray-700">Total</span>
+                      <span className="text-lg font-bold text-green-600">${order.totalPrice.toFixed(2)}</span>
                     </div>
                   </div>
                 ))}
@@ -355,7 +355,7 @@ function Profile() {
         <div className="lg:col-span-1">
           <div className="card p-6 border-2 border-red-200">
             <h2 className="text-xl font-bold text-red-900 mb-4">Danger Zone</h2>
-            <p className="text-sm text-neutral-600 mb-4">
+            <p className="text-sm text-gray-600 mb-4">
               Once you delete your account, there is no going back. This will permanently delete your account and all associated data.
             </p>
             <button
@@ -372,8 +372,8 @@ function Profile() {
       {showDeleteModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-xl p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold text-neutral-900 mb-4">Delete Account</h3>
-            <p className="text-neutral-600 mb-4">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">Delete Account</h3>
+            <p className="text-gray-600 mb-4">
               This action cannot be undone. This will permanently delete your account and remove all your data from our servers.
             </p>
             <p className="text-sm text-neutral-700 mb-2 font-semibold">

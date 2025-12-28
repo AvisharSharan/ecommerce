@@ -109,43 +109,33 @@ function AdminDashboard() {
     }
   };
 
-  if (loading) return <p className="text-neutral-600 text-center py-12">Loading admin dashboard...</p>;
-  if (error) return <p className="text-red-600 text-center py-12">{error}</p>;
+  if (loading) return <p className="text-center py-12 text-gray-600">Loading...</p>;
+  if (error) return <p className="text-center py-12 text-red-600">{error}</p>;
 
   return (
     <div>
-      <div className="mb-10 text-center">
-        <div className="inline-block p-4 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl shadow-xl mb-4">
-          <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-          </svg>
-        </div>
-        <h2 className="section-title">
-          Admin <span className="gradient-text">Dashboard</span>
-        </h2>
-        <p className="section-subtitle">Manage products and orders efficiently</p>
+      <div className="mb-6">
+        <h2 className="text-3xl font-bold text-gray-900">Admin Dashboard</h2>
+        <p className="text-gray-600">Manage products and orders</p>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-8">
+      <div className="grid lg:grid-cols-2 gap-6">
         <div>
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-semibold text-neutral-900">Products</h3>
-            <div className="flex gap-2 items-center">
-              <span className="badge">{products.length} total</span>
-              <button 
-                onClick={() => setShowAddProduct(!showAddProduct)}
-                className="btn btn-primary text-sm"
-              >
-                {showAddProduct ? 'Cancel' : '+ Add Product'}
-              </button>
-            </div>
+            <h3 className="text-xl font-semibold text-gray-900">Products ({products.length})</h3>
+            <button 
+              onClick={() => setShowAddProduct(!showAddProduct)}
+              className="btn btn-primary text-sm"
+            >
+              {showAddProduct ? 'Cancel' : '+ Add'}
+            </button>
           </div>
 
           {showAddProduct && (
-            <div className="card p-6 mb-4">
-              <h4 className="font-semibold text-neutral-900 mb-4">Add New Product</h4>
-              {addError && <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg mb-4">{addError}</div>}
-              <form onSubmit={handleAddProduct} className="space-y-3">
+            <div className="card p-4 mb-4">
+              <h4 className="font-semibold text-gray-900 mb-3">Add New Product</h4>
+              {addError && <div className="bg-red-50 text-red-600 px-3 py-2 rounded mb-3 text-sm">{addError}</div>}
+              <form onSubmit={handleAddProduct} className="space-y-2">
                 <input
                   type="text"
                   placeholder="Product Name"
@@ -208,10 +198,10 @@ function AdminDashboard() {
               <div key={p._id} className="card p-4">
                 <div className="flex justify-between items-start mb-3">
                   <div className="flex-1">
-                    <p className="font-medium text-neutral-900">{p.name}</p>
-                    <p className="text-sm text-neutral-600">Stock: {p.countInStock}</p>
+                    <p className="font-medium text-gray-900">{p.name}</p>
+                    <p className="text-sm text-gray-600">Stock: {p.countInStock}</p>
                   </div>
-                  <p className="font-semibold text-neutral-900">${p.price}</p>
+                  <p className="font-semibold text-green-600">${p.price}</p>
                 </div>
                 
                 {editingProduct === p._id ? (
@@ -264,49 +254,45 @@ function AdminDashboard() {
         </div>
 
         <div>
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-semibold text-neutral-900">Orders</h3>
-            <span className="badge">{orders.length} total</span>
+          <div className="mb-4">
+            <h3 className="text-xl font-semibold text-gray-900">Orders ({orders.length})</h3>
           </div>
           <div className="space-y-3">
             {orders.map((o) => (
               <div key={o._id} className="card p-5">
                 <div className="flex justify-between items-start mb-3">
                   <div>
-                    <p className="text-sm font-semibold text-slate-700">Order #{o._id.slice(-8)}</p>
-                    <p className="text-sm text-slate-600">{o.user?.name || 'Guest'}</p>
-                    <p className="text-xs text-slate-500">{o.user?.email}</p>
+                    <p className="text-sm font-semibold text-gray-700">Order #{o._id.slice(-8)}</p>
+                    <p className="text-sm text-gray-600">{o.user?.name || 'Guest'}</p>
+                    <p className="text-xs text-gray-500">{o.user?.email}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-lg font-bold gradient-text">${o.totalPrice.toFixed(2)}</p>
-                    <p className="text-xs text-slate-500">{new Date(o.createdAt).toLocaleDateString()}</p>
+                    <p className="text-lg font-bold text-green-600">${o.totalPrice.toFixed(2)}</p>
+                    <p className="text-xs text-gray-500">{new Date(o.createdAt).toLocaleDateString()}</p>
                   </div>
                 </div>
                 
                 {editingOrder === o._id ? (
-                  <div className="mt-4 space-y-3">
-                    <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">Update Status</label>
-                      <select
-                        value={orderStatus}
-                        onChange={(e) => setOrderStatus(e.target.value)}
-                        className="input text-sm"
-                      >
-                        <option value="">Select status...</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Processing">Processing</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Cancelled">Cancelled</option>
-                        <option value="Returned">Returned</option>
-                      </select>
-                    </div>
+                  <div className="mt-3 space-y-2">
+                    <select
+                      value={orderStatus}
+                      onChange={(e) => setOrderStatus(e.target.value)}
+                      className="input text-sm w-full"
+                    >
+                      <option value="">Select status...</option>
+                      <option value="Pending">Pending</option>
+                      <option value="Processing">Processing</option>
+                      <option value="Completed">Completed</option>
+                      <option value="Cancelled">Cancelled</option>
+                      <option value="Returned">Returned</option>
+                    </select>
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleUpdateOrderStatus(o._id)}
                         disabled={!orderStatus}
                         className="btn btn-primary text-sm flex-1"
                       >
-                        Update Status
+                        Update
                       </button>
                       <button
                         onClick={() => {
@@ -320,10 +306,10 @@ function AdminDashboard() {
                     </div>
                   </div>
                 ) : (
-                  <div className="mt-4">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-sm font-medium text-slate-600">Status:</span>
-                      <span className={`badge ${getStatusColor(o.status)} px-3 py-1.5`}>
+                  <div className="mt-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-gray-600">Status:</span>
+                      <span className={`badge ${getStatusColor(o.status)} text-xs px-2 py-1`}>
                         {o.status}
                       </span>
                     </div>

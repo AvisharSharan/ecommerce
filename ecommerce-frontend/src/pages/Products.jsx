@@ -70,7 +70,7 @@ function Products() {
     return (
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         {[...Array(8)].map((_, i) => (
-          <div key={i} className="h-64 rounded-xl bg-neutral-200 animate-pulse" />
+          <div key={i} className="h-64 rounded-lg bg-gray-200 animate-pulse" />
         ))}
       </div>
     );
@@ -81,18 +81,17 @@ function Products() {
   }
 
   return (
-    <div className="space-y-8">
-      {/* HEADER */}
-      <header>
-        <h1 className="text-3xl font-bold text-neutral-900">Products</h1>
-        <p className="text-neutral-600">
-          {filteredProducts.length} of {products.length} items
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold text-gray-900">Products</h1>
+        <p className="text-gray-600">
+          {filteredProducts.length} of {products.length} products
         </p>
-      </header>
+      </div>
 
-      {/* FILTER BAR */}
-      <div className="sticky top-16 z-10 bg-white border rounded-xl p-4 shadow-sm">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      {/* Filters */}
+      <div className="bg-white border border-gray-200 rounded-lg p-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -141,55 +140,53 @@ function Products() {
           </div>
         </div>
 
-        <div className="mt-4 flex justify-end">
+        <div className="mt-3 flex justify-end">
           <button
             onClick={resetFilters}
-            className="text-sm font-medium text-neutral-700 hover:text-neutral-900"
+            className="text-sm text-gray-700 hover:text-green-600"
           >
             Reset filters
           </button>
         </div>
       </div>
 
-      {/* GRID */}
+      {/* Products Grid */}
       {filteredProducts.length === 0 ? (
-        <div className="text-center py-16">
-          <h3 className="text-xl font-semibold">No products found</h3>
-          <button onClick={resetFilters} className="btn btn-primary mt-4">
+        <div className="text-center py-12">
+          <p className="text-gray-600 mb-3">No products found</p>
+          <button onClick={resetFilters} className="btn btn-primary">
             Clear filters
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredProducts.map(product => (
             <Link
               key={product._id}
               to={`/products/${product._id}`}
-              className="group rounded-xl border p-4 hover:shadow-md transition"
+              className="group border border-gray-200 rounded-lg p-3 hover:shadow-md hover:border-green-300 transition-all"
             >
-              <div className="aspect-square rounded-lg bg-neutral-100 overflow-hidden">
+              <div className="aspect-square rounded-lg bg-gray-100 overflow-hidden mb-2">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="h-full w-full object-cover group-hover:scale-105 transition"
+                  className="h-full w-full object-cover group-hover:scale-105 transition-transform"
                 />
               </div>
 
-              <div className="mt-3">
-                <h3 className="font-medium text-neutral-900 truncate">
-                  {product.name}
-                </h3>
+              <h3 className="font-medium text-gray-900 truncate group-hover:text-green-600 transition-colors">
+                {product.name}
+              </h3>
 
-                {product.category && (
-                  <span className="inline-block mt-1 text-xs bg-neutral-100 px-2 py-0.5 rounded">
-                    {product.category}
-                  </span>
-                )}
+              {product.category && (
+                <span className="inline-block mt-1 text-xs bg-green-50 text-green-600 px-2 py-0.5 rounded">
+                  {product.category}
+                </span>
+              )}
 
-                <p className="mt-2 text-lg font-bold text-neutral-900">
-                  ${product.price}
-                </p>
-              </div>
+              <p className="mt-2 text-lg font-bold text-green-600">
+                ${product.price}
+              </p>
             </Link>
           ))}
         </div>

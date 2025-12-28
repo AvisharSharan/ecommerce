@@ -27,34 +27,30 @@ function ProductPage() {
     fetchProduct();
   }, [id]);
 
-  if (loading) return <p className="text-neutral-600 text-center py-12">Loading...</p>;
+  if (loading) return <p className="text-gray-600 text-center py-12">Loading...</p>;
   if (error) return <p className="text-red-600 text-center py-12">{error}</p>;
 
   return (
     <div className="max-w-6xl mx-auto">
-      <div className="grid md:grid-cols-2 gap-12">
-        <div className="aspect-square bg-neutral-100 rounded-xl overflow-hidden">
-          <img 
-            src={product.image} 
-            alt={product.name} 
-            className="w-full h-full object-cover"
-          />
+      <div className="grid md:grid-cols-2 gap-8">
+        <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+          <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
         </div>
         
         <div className="flex flex-col">
-          <div className="mb-6">
+          <div className="mb-4">
             {product.category && (
-              <span className="badge mb-2">{product.category}</span>
+              <span className="badge badge-primary mb-2">{product.category}</span>
             )}
-            <h1 className="text-4xl font-bold text-neutral-900 mb-3">{product.name}</h1>
-            <p className="text-neutral-600 text-lg">{product.description}</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
+            <p className="text-gray-600">{product.description}</p>
           </div>
           
-          <div className="mb-6">
+          <div className="mb-4">
             <div className="flex items-baseline gap-2 mb-2">
-              <span className="text-3xl font-bold text-neutral-900">${product.price}</span>
+              <span className="text-2xl font-bold text-green-600">${product.price}</span>
             </div>
-            <p className="text-sm text-neutral-600">
+            <p className="text-sm text-gray-600">
               {product.countInStock > 0 
                 ? `${product.countInStock} in stock` 
                 : 'Out of stock'
@@ -63,22 +59,22 @@ function ProductPage() {
           </div>
 
           {product.countInStock > 0 ? (
-            <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <span className="text-sm font-medium text-neutral-700">Quantity:</span>
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-medium text-gray-700">Quantity:</span>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setQty(Math.max(1, qty - 1))}
-                    className="w-10 h-10 flex items-center justify-center bg-neutral-100 hover:bg-neutral-200 rounded-lg transition-colors"
+                    className="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-lg"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
                     </svg>
                   </button>
-                  <span className="w-12 text-center font-semibold text-lg">{qty}</span>
+                  <span className="w-12 text-center font-semibold">{qty}</span>
                   <button
                     onClick={() => setQty(Math.min(product.countInStock, qty + 1))}
-                    className="w-10 h-10 flex items-center justify-center bg-neutral-100 hover:bg-neutral-200 rounded-lg transition-colors"
+                    className="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-lg"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -93,14 +89,14 @@ function ProductPage() {
                   setAddedToCart(true);
                   setTimeout(() => setAddedToCart(false), 2000);
                 }} 
-                className="btn btn-primary w-full py-3 text-lg relative"
+                className="btn btn-primary w-full py-3"
               >
                 {addedToCart ? (
                   <span className="flex items-center justify-center gap-2">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Added to Cart!
+                    Added!
                   </span>
                 ) : (
                   `Add ${qty} to Cart`
@@ -108,7 +104,7 @@ function ProductPage() {
               </button>
             </div>
           ) : (
-            <button disabled className="btn btn-secondary w-full py-3 text-lg opacity-50 cursor-not-allowed">
+            <button disabled className="btn btn-secondary w-full py-3 opacity-50 cursor-not-allowed">
               Out of Stock
             </button>
           )}
