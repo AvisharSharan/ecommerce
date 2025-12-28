@@ -10,23 +10,34 @@ exports.createOrder = async (req, res) => {
       return res.status(400).json({ message: "No order items" });
     }
 
-    // Update stock for each product
+    // Validate stock before creating order
     for (const item of orderItems) {
-      const product = await Product.findById(item.product);
-      if (product) {
-        product.countInStock -= item.qty;
-        await product.save();
+      const product = await Product.findById(item.product).select('countInStock');
+      if (!product) {
+        return res.status(404).json({ message: `Product ${item.name} not found` });
+      }
+      if (product.countInStock < item.qty) {
+        return res.status(400).json({ message: `Insufficient stock for ${item.name}` });
       }
     }
 
-    const order = new Order({
+    // Update stock for each product
+    const updatePromises = orderItems.map(item =>
+      Product.findByIdAndUpdate(
+        item.product,
+        { $inc: { countInStock: -item.qty } },
+        { new: true }
+      )
+    );
+    await Promise.all(updatePromises);
+
+    const order = await Order.create({
       user: req.user._id,
       orderItems,
       totalPrice,
     });
 
-    const createdOrder = await order.save();
-    res.status(201).json(createdOrder);
+    res.status(201).json(order);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -35,7 +46,10 @@ exports.createOrder = async (req, res) => {
 // @desc Get logged-in user's orders
 exports.getMyOrders = async (req, res) => {
   try {
-    const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
+    const orders = await Order.find({ user: req.user._id })
+      .select('orderItems totalPrice status createdAt')
+      .sort({ createdAt: -1 })
+      .lean();
     res.json(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });

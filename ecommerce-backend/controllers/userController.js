@@ -84,8 +84,9 @@ exports.deleteUserAccount = async (req, res) => {
 exports.getUserOrders = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user._id })
-      .populate("orderItems.product", "name image")
-      .sort({ createdAt: -1 });
+      .select('orderItems totalPrice status createdAt')
+      .sort({ createdAt: -1 })
+      .lean();
     
     res.json(orders);
   } catch (error) {
