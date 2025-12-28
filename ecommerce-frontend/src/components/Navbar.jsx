@@ -31,6 +31,7 @@ function Navbar() {
                 )}
               </Link>
               {user && <Link to="/orders" className="text-neutral-600 hover:text-neutral-900 transition-colors">Orders</Link>}
+              {user && <Link to="/profile" className="text-neutral-600 hover:text-neutral-900 transition-colors">Profile</Link>}
               {user?.isAdmin && <Link to="/admin" className="text-neutral-600 hover:text-neutral-900 transition-colors">Admin</Link>}
             </div>
           </div>
