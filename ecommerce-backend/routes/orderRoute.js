@@ -3,7 +3,7 @@ const router = express.Router();
 const { protect } = require("../middleware/authMiddleware");
 const { admin } = require("../middleware/adminMiddleware");
 const Order = require("../models/Order");
-const { createOrder, getMyOrders, updateOrderStatus } = require("../controllers/OrderController");
+const { createOrder, getMyOrders, updateOrderStatus } = require("../controllers/orderController");
 
 router.post("/", protect, createOrder);
 router.get("/myorders", protect, getMyOrders);
